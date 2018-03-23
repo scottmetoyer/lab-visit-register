@@ -11,4 +11,7 @@ app.controller('MainController', function MainController($scope) {
     'Workshop',
     'Working on a project'];
 
+  self.save = function() {
+    console.log('saved');
+  }
 });

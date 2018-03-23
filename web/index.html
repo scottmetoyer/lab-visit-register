@@ -8,26 +8,61 @@
   <meta name="author" content="">
   <link rel="icon" href="favicon.ico">
 
-  <title>UCR Library Lab Register</title>
+  <title>UCR Library Lab Check-in</title>
 
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
-
+  <link rel="stylesheet" type="text/css" href="bower_components/angular-wizard/dist/angular-wizard.min.css">
   <link href="css/site.css" rel="stylesheet">
 
   <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
+  <script type="text/javascript" src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
   <script type="text/javascript" src="scripts/app.js"></script>
 </head>
 
-<body class="text-center" ng-controller="MainController as main">
-  <div>
-    <form class="form-signin">
+<body ng-controller="MainController as main" class="text-center">
+  <main role="main">
+    <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true" class="form-signin">
       <img class="mb-4" src="images/DBWQUzN2_400x400.jpg" alt="" width="72" height="72">
-      <h1 class="h3 mb-3 font-weight-normal">Please swipe to check-in</h1>
-      <input type="password" id="card" class="form-control" required autofocus>
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-      <p class="mt-5 mb-3 text-muted">&copy; 2018 UCR Library</p>
-    </form>
-  </div>
+      <wz-step wz-title="Check-in">
+        <h1 class="h3 mb-3 font-weight-normal">Please swipe to check-in</h1>
+        <input type="password" id="card" class="form-control" required autofocus>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Check-in">
+        </button>
+      </wz-step>
+      <wz-step wz-title="Reason for visit">
+        <h1 class="h3 mb-3 font-weight-normal">What brings you in today?</h1>
+
+        <select class="form-control" ng-model="main.reasonForVisit" ng-options="reason for reason in main.reasonsForVisit">
+        </select>
+
+        <div id="printingDetail" ng-show="main.reasonForVisit == '3D Printing'">
+          printing detail
+        </div>
+
+        <div id="workshopDetail" ng-show="main.reasonForVisit == 'Workshop'">
+          workshop detail
+        </div>
+
+        <div id="projectDetail" ng-show="main.reasonForVisit == 'Working on a project'">
+          project detail
+        </div>
+
+        <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Submit" />
+      </wz-step>
+      <wz-step wz-title="About you">
+        <h1 class="h3 mb-3 font-weight-normal">Tell us about yourself</h1>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Submit" />
+      </wz-step>
+      <wz-step wz-title="Finish">
+        <h1 class="btn btn-lg btn-primary btn-block" class="h3 mb-3 font-weight-normal">Thanks!</h1>
+      </wz-step>
+    </wizard>
+  </main>
+  <footer class="footer">
+    <div class="container">
+      <span class="text-muted">&copy; 2018 UCR Library</span>
+    </div>
+  </footer>
 </body>
 
 </html>

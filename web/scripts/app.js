@@ -1,17 +1,47 @@
 var app = angular.module('app', ['mgo-angular-wizard']);
+var env = {};
 
-app.controller('MainController', function MainController($scope) {
+if (window) {
+  Object.assign(env, window.__env);
+}
+app.constant('__env', env);
+app.controller('MainController', function MainController($scope, $http, $timeout, __env) {
   var self = this;
+  var urlBase = __env.apiUrl;
 
-  self.reasonForVisit = {};
+  self.visit = {
+    visitor: '',
+    reasonForVisit: ''
+  };
+
   self.reasonsForVisit = [
-    '3D Printing',
-    'Consultation',
-    'Tour',
-    'Workshop',
-    'Working on a project'];
+    { title: '3D Printing', icon: 'ion-printer' },
+    { title: 'Consultation', icon: 'ion-chatboxes' },
+    { title: 'Tour', icon: 'ion-map' },
+    { title: 'Workshop', icon: 'ion-settings' },
+    { title: 'Project', icon: 'ion-cube' }
+  ];
 
-  self.save = function() {
-    console.log('saved');
+  self.setReasonForVisit = function (reason) {
+    self.visit.reasonForVisit = reason.title;
+    console.log(self.visit);
+    save();
+  }
+
+  self.reset = function () {
+    document.location.href = "/";
+  }
+
+  function save() {
+    $http.post(
+      urlBase + "/visits",
+      JSON.stringify(self.visit)
+    ).then(function (response) {
+      $timeout(function () {
+        self.reset();
+      }, 2000);
+    }, function (error) {
+      console.log(error);
+    });
   }
 });

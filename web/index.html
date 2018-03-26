@@ -11,50 +11,41 @@
   <title>UCR Library Lab Check-in</title>
 
   <link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="http://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css" rel="stylesheet">
   <link rel="stylesheet" type="text/css" href="bower_components/angular-wizard/dist/angular-wizard.min.css">
   <link href="css/site.css" rel="stylesheet">
 
   <script type="text/javascript" src="bower_components/angular/angular.min.js"></script>
   <script type="text/javascript" src="bower_components/angular-wizard/dist/angular-wizard.min.js"></script>
+
+    <!-- Environment variables -->
+    <script src="scripts/env.js"></script>
+
   <script type="text/javascript" src="scripts/app.js"></script>
 </head>
 
 <body ng-controller="MainController as main" class="text-center">
   <main role="main">
     <wizard on-finish="finishedWizard()" on-cancel="cancelledWizard()" hide-indicators="true" class="form-signin">
-      <img class="mb-4" src="images/DBWQUzN2_400x400.jpg" alt="" width="72" height="72">
+      <img class="mb-4" src="images/logo.png" alt="" width="350">
       <wz-step wz-title="Check-in">
         <h1 class="h3 mb-3 font-weight-normal">Please swipe to check-in</h1>
-        <input type="password" id="card" class="form-control" required autofocus>
+        <input type="password" id="card" class="form-control" ng-model="main.visit.visitor" required autofocus>
         <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Check-in">
-        </button>
       </wz-step>
       <wz-step wz-title="Reason for visit">
         <h1 class="h3 mb-3 font-weight-normal">What brings you in today?</h1>
-
-        <select class="form-control" ng-model="main.reasonForVisit" ng-options="reason for reason in main.reasonsForVisit">
-        </select>
-
-        <div id="printingDetail" ng-show="main.reasonForVisit == '3D Printing'">
-          printing detail
+        <div class="row">
+          <div ng-repeat="reason in main.reasonsForVisit" class="col-md-4 text-center" wz-next="main.setReasonForVisit(reason)">
+            <i class="{{ reason.icon }} display-2 text-primary"></i>
+            <br>
+            <p>{{ reason.title }}</p>
+          </div>
         </div>
-
-        <div id="workshopDetail" ng-show="main.reasonForVisit == 'Workshop'">
-          workshop detail
-        </div>
-
-        <div id="projectDetail" ng-show="main.reasonForVisit == 'Working on a project'">
-          project detail
-        </div>
-
-        <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Submit" />
-      </wz-step>
-      <wz-step wz-title="About you">
-        <h1 class="h3 mb-3 font-weight-normal">Tell us about yourself</h1>
-        <input class="btn btn-lg btn-primary btn-block" type="submit" wz-next value="Submit" />
       </wz-step>
       <wz-step wz-title="Finish">
-        <h1 class="btn btn-lg btn-primary btn-block" class="h3 mb-3 font-weight-normal">Thanks!</h1>
+        <p>Have fun!</p>
+        <button class="btn btn-lg btn-primary btn-block" class="h3 mb-3 font-weight-normal" ng-click="main.reset()">Thanks for visiting</button>
       </wz-step>
     </wizard>
   </main>

@@ -30,7 +30,7 @@ provider:
   profile: ${self:custom.profile.${self:custom.stage}}
 
   environment:
-    VISITS_TABLE: visit-${opt:stage, self:provider.stage}
+    VISITS_TABLE: visits-${opt:stage, self:provider.stage}
 
   iamRoleStatements:
     - Effect: Allow

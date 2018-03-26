@@ -38,20 +38,14 @@ module.exports.handler = (event, context, callback) => {
     id ? item.id = id : item.id = uuidv1();
     item.timestamp = datetime;
 
-    params.department != null ? item.department = params.department : null;
-    params.name != null ? item.name = params.name : null;
-    params.description != null ? item.description = params.description : null;
-    params.owner != null ? item.owner = params.owner : null;
-    params.lead != null ? item.lead = params.lead : null;
-    params.hasProjectPlan != null ? item.hasProjectPlan = params.hasProjectPlan : null;
-    params.hasWiki != null ? item.hasWiki = params.hasWiki : null;
-    params.hasJiraProject != null ? item.hasJiraProject = params.hasJiraProject : null;
-    params.hasCodeRepository != null ? item.hasCodeRepository = params.hasCodeRepository : null;
-    params.projectPlanLink != null ? item.projectPlanLink = params.projectPlanLink : null;
-    params.wikiLink != null ? item.wikiLink = params.wikiLink : null;
-    params.jiraLink != null ? item.jiraLink = params.jiraLink : null;
-    params.codeRepositoryLink != null ? item.codeRepositoryLink = params.codeRepositoryLink : null;
-    params.executionStatus != null ? item.executionStatus = params.executionStatus : null;
+    params.visitor != null ? item.visitor = params.visitor : null;
+    params.reasonForVisit != null ? item.reasonForVisit = params.reasonForVisit : null;
+
+    // Attempt to parse out the SID from the raw visitor string
+    if (item.visitor) {
+      var sid = '';
+      // item.sid = sid;
+    }
 
     docClient.put({
       "TableName": tableName,
